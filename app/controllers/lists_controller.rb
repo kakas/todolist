@@ -26,8 +26,6 @@ class ListsController < ApplicationController
     else
       render :back
     end
-
-
   end
 
   def destroy
@@ -36,6 +34,11 @@ class ListsController < ApplicationController
     redirect_to lists_path
   end
 
+  def done_toggle
+    @list = List.find(params[:id])
+    @list.toggle!(:done)
+    redirect_to lists_path
+  end
 
   private
 
