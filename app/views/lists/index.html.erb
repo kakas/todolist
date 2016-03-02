@@ -4,29 +4,41 @@
 <div class="col-md-3"></div>
 
 <div class="col-md-6">
+
+  <div class="btn-group" role="group" aria-label="visible-type">
+    <%= link_to "All", visible_all_lists_path, class: @class_all %>
+    <%= link_to "Active", visible_active_lists_path, class: @class_active %>
+    <%= link_to "Complete", visible_complete_lists_path, class: @class_complete %>
+  </div>
+
+  <hr>
+
   <%= simple_form_for @new_list do |f| %>
     <%= f.input :content, label: false %>
   <% end %>
 
   <% @lists.each do |list| %>
-    <%= form_for list do |f| %>
-      <div class="input-group">
 
-        <span class="input-group-addon">
-          <% if list.done? %>
-            <%= link_to "undo", done_toggle_list_path(list), method: :post %>
-          <% else %>
-            <%= link_to "V", done_toggle_list_path(list), method: :post %>
-          <% end %>
-        </span>
-
-        <%= f.text_field :content, class: 'form-control' %>
-
-        <span class="input-group-addon">
-          <%= link_to "x", list_path(list), method: :delete %>
-        </span>
-      </div>
+    <% if @visible == "All" || (@visible == "Active" && !list.done) || (@visible == "Complete" && list.done) %>
+      <%= form_for list do |f| %>
+        <div class="input-group">
+          <span class="input-group-addon">
+            <% if list.done? %>
+              <%= link_to "undo", done_toggle_list_path(list), method: :post %>
+            <% else %>
+              <%= link_to "V", done_toggle_list_path(list), method: :post %>
+            <% end %>
+          </span>
+          <%= f.text_field :content, class: 'form-control' %>
+          <span class="input-group-addon">
+            <%= link_to "x", list_path(list), method: :delete %>
+          </span>
+        </div>
+      <% end %>
     <% end %>
+
   <% end %>
 
 </div>
+
+<%= console %>
