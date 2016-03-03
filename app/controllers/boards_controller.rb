@@ -61,6 +61,7 @@ class BoardsController < ApplicationController
     @board = Board.find(params[:id])
     @board.update_columns(visible: "All")
     @board.save
+    redirect_to boards_path
   end
 
   def visible_active
