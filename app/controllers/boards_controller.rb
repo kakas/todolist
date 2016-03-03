@@ -3,7 +3,7 @@ class BoardsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @boards = Board.all
+    @boards = current_user.boards.includes(:lists)
     @new_board = Board.new
   end
 
@@ -15,6 +15,11 @@ class BoardsController < ApplicationController
     else
       render :back
     end
+  end
+
+  def change
+    session[:board_id] = params[:id]
+    redirect_to boards_path
   end
 
   private

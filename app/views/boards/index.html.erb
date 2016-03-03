@@ -11,11 +11,15 @@
 </div>
 
 <ul class="nav nav-tabs">
-
   <% @boards.each do |board| %>
-    <li role="presentation">
-      <%= link_to board.title, board_path(board) %>
-    </li>
-  <% end %>
+    <% if board.id == session[:board_id].to_i %>
+      <% @active = "active" %>
+    <% else %>
+      <% @active = "nil" %>
+    <% end %>
 
+    <%= content_tag :li, role: "presentation", class: @active do %>
+      <%= link_to board.title, change_board_path(board), class: "active" %>
+    <% end %>
+  <% end %>
 </ul>

@@ -5,6 +5,10 @@ Rails.application.routes.draw do
   root "boards#index"
 
   resources :boards do
+    member do
+      get :change
+    end
+
     resources :lists do
       member do
         post :done_toggle
