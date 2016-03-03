@@ -40,6 +40,18 @@ class BoardsController < ApplicationController
     end
   end
 
+  def update
+    @board = Board.find(params[:id])
+
+    if @board.update(board_params)
+      redirect_to boards_path
+    else
+      render :back
+    end
+
+
+  end
+
   def destroy
     @board = Board.find(params[:id])
     @board.destroy
@@ -61,6 +73,7 @@ class BoardsController < ApplicationController
     @board = Board.find(params[:id])
     @board.update_columns(visible: "All")
     @board.save
+    redirect_to boards_path
   end
 
   def visible_active

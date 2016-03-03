@@ -30,6 +30,19 @@
   <br>
   <br>
   <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-4">
+      <%= form_for @board do |f| %>
+        <div class="input-group input-group-lg" style="padding-bottom:10px;">
+          <span class="input-group-addon">
+            <i class="fa fa-plane"></i>
+          </span>
+          <%= f.text_field :title, class: 'form-control', placeholder: @board.title %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
     <%= link_to "x", board_path(@board), method: :delete, class: "btn btn-default btn-xs pull-right", data: { confirm: "Are you sure?" } %>
   </div>
   <br>
@@ -46,7 +59,7 @@
     </div>
     <div class="col-md-6">
       <%= simple_form_for [@board, @new_list] do |f| %>
-        <%= f.input :content, label: false, autofocus: true %>
+        <%= f.input :content, label: false, autofocus: true, placeholder: "What need to be done?" %>
       <% end %>
 
       <% @board.lists.each do |list| %>
