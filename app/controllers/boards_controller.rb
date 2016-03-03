@@ -40,6 +40,18 @@ class BoardsController < ApplicationController
     end
   end
 
+  def update
+    @board = Board.find(params[:id])
+
+    if @board.update(board_params)
+      redirect_to boards_path
+    else
+      render :back
+    end
+
+
+  end
+
   def destroy
     @board = Board.find(params[:id])
     @board.destroy
