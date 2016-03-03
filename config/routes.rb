@@ -5,20 +5,13 @@ Rails.application.routes.draw do
   root "boards#index"
 
   resources :boards do
-    member do
-      get :change
-    end
+    get :change,            on: :member
+    post :visible_all,      on: :member
+    post :visible_active,   on: :member
+    post :visible_complete, on: :member
 
     resources :lists do
-      member do
-        post :done_toggle
-      end
-
-      collection do
-        get :visible_all
-        get :visible_active
-        get :visible_complete
-      end
+      post :done_toggle, on: :member
     end
   end
 
