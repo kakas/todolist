@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users
 
+  resources :boards
+
   resources :lists do
     member do
       post :done_toggle
