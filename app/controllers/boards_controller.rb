@@ -3,8 +3,10 @@ class BoardsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @boards = current_user.boards.includes(:lists)
     @new_board = Board.new
+    @boards = current_user.boards.includes(:lists)
+    @board = Board.find(session[:board_id].to_i)
+    @new_list = @board.lists.build
   end
 
   def create
@@ -25,7 +27,7 @@ class BoardsController < ApplicationController
   private
 
   def board_params
-    params.require(:board).permit(:title, :visible)
+    params.require(:board).permit(:title, :visible, list_attributes: [:content, :done])
   end
 
 

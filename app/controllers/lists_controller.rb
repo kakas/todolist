@@ -25,35 +25,41 @@ class ListsController < ApplicationController
   end
 
   def create
-    @list = List.new(list_params)
+    @board = Board.find(params[:board_id])
+    @list = @board.lists.build(list_params)
 
     if @list.save
-      redirect_to lists_path
+      redirect_to boards_path
     else
       render :back
     end
   end
 
   def update
-    @list = List.find(params[:id])
+    @board = Board.find(params[:board_id])
+    @list = @board.lists.find(params[:id])
 
     if @list.update(list_params)
-      redirect_to lists_path
+      redirect_to boards_path
     else
       render :back
     end
   end
 
   def destroy
-    @list = List.find(params[:id])
+    @board = Board.find(params[:board_id])
+    @list = @board.lists.find(params[:id])
     @list.destroy
-    redirect_to lists_path
+
+    redirect_to boards_path
   end
 
   def done_toggle
-    @list = List.find(params[:id])
+    @board = Board.find(params[:board_id])
+    @list = @board.lists.find(params[:id])
     @list.toggle!(:done)
-    redirect_to lists_path
+
+    redirect_to boards_path
   end
 
   def visible_all
