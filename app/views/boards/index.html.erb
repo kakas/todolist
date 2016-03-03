@@ -46,7 +46,7 @@
     </div>
     <div class="col-md-6">
       <%= simple_form_for [@board, @new_list] do |f| %>
-        <%= f.input :content, label: false %>
+        <%= f.input :content, label: false, autofocus: true %>
       <% end %>
 
       <% @board.lists.each do |list| %>
