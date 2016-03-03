@@ -1,15 +1,17 @@
 Rails.application.routes.draw do
+
   devise_for :users
 
-  resources :lists do
-    member do
-      post :done_toggle
-    end
+  root "boards#index"
 
-    collection do
-      get :visible_all
-      get :visible_active
-      get :visible_complete
+  resources :boards do
+    get :change,            on: :member
+    post :visible_all,      on: :member
+    post :visible_active,   on: :member
+    post :visible_complete, on: :member
+
+    resources :lists do
+      post :done_toggle, on: :member
     end
   end
 
