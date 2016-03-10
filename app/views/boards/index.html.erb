@@ -1,18 +1,10 @@
 
 <%= render "new_board_form" %>
 
-<% if @board.id.present? %>
-
   <ul class="nav nav-tabs">
     <% @boards.each do |board| %>
-      <% if board.id == session[:board_id].to_i %>
-        <% @active = "active" %>
-      <% else %>
-        <% @active = "nil" %>
-      <% end %>
-
-      <%= content_tag :li, role: "presentation", class: @active do %>
-        <%= link_to board.title, change_board_path(board), class: "active" %>
+      <%= content_tag :li, role: "presentation", class: nav_tab_active_or_not(board) do %>
+        <%= link_to board.title, change_board_path(board) %>
       <% end %>
     <% end %>
   </ul>
@@ -103,4 +95,3 @@
       <% end %>
     </div>
   </div>
-<% end %>
