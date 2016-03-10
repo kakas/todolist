@@ -49,12 +49,6 @@ class BoardsController < ApplicationController
 
   def destroy
     @board.destroy
-    if Board.first.present?
-      session[:board_id] = Board.first.id
-    else
-      session[:board_id] = "0"
-    end
-
     redirect_to boards_path
   end
 
