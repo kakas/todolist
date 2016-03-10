@@ -4,12 +4,7 @@ class BoardsController < ApplicationController
 
   def index
     @new_board = Board.new
-
-    if current_user.boards.first.present?
-      @board = Board.find(session[:board_id].to_i)
-    else
-      @board = @new_board
-    end
+    @board = current_board
 
     @boards = current_user.boards.includes(:lists)
     @new_list = @board.lists.build
