@@ -1,88 +1,40 @@
 
-<div class="row">
-  <div class="col-md-4">
-    <%= form_for @new_board do |f| %>
-      <div class="input-group" style="padding-bottom:10px;">
-        <span class="input-group-addon">Add a Board</span>
-        <%= f.text_field :title, class: 'form-control' %>
-      </div>
+<%= render "new_board_form" %>
+
+<ul class="nav nav-tabs">
+  <% @boards.each do |board| %>
+    <%= content_tag :li, role: "presentation", class: nav_tab_active_or_not(board) do %>
+      <%= link_to board.title, change_board_path(board) %>
     <% end %>
+  <% end %>
+</ul>
+
+<br>
+<%= render "edit_board_form" %>
+<br>
+
+<div class="row">
+  <div class="col-md-4 col-md-offset-4 col-xs-offset-1">
+    <div class="btn-group">
+      <%= link_to "All",      visible_all_board_path(@board),      method: :post, class: visible_selected_class("All") %>
+      <%= link_to "Active",   visible_active_board_path(@board),   method: :post, class: visible_selected_class("Active") %>
+      <%= link_to "Complete", visible_complete_board_path(@board), method: :post, class: visible_selected_class("Complete") %>
+      <%= link_to board_path(@board), class: "btn btn-default", method: :delete, data: { confirm: "確定刪除這個Board?" } do %>
+        <i class="fa fa-folder-o"></i>
+        <i class="fa fa-long-arrow-right"></i>
+        <i class="fa fa-trash"></i>
+      <% end %>
+    </div>
   </div>
 </div>
+<br>
 
-<% if @board.id.present? %>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
 
-  <ul class="nav nav-tabs">
-    <% @boards.each do |board| %>
-      <% if board.id == session[:board_id].to_i %>
-        <% @active = "active" %>
-      <% else %>
-        <% @active = "nil" %>
-      <% end %>
+    <%= render "new_list_form" %>
 
-      <%= content_tag :li, role: "presentation", class: @active do %>
-        <%= link_to board.title, change_board_path(board), class: "active" %>
-      <% end %>
-    <% end %>
-  </ul>
+    <%= render partial: "check_list_form", collection: @board.lists, as: :list %>
 
-
-  <br>
-  <br>
-  <div class="row">
-    <div class="col-md-3"></div>
-    <div class="col-md-4">
-      <%= form_for @board do |f| %>
-        <div class="input-group input-group-lg" style="padding-bottom:10px;">
-          <span class="input-group-addon">
-            <i class="fa fa-plane"></i>
-          </span>
-          <%= f.text_field :title, class: 'form-control', placeholder: @board.title %>
-        </div>
-      <% end %>
-    </div>
   </div>
-  <div class="row">
-    <%= link_to "x", board_path(@board), method: :delete, class: "btn btn-default btn-xs pull-right", data: { confirm: "Are you sure?" } %>
-  </div>
-  <br>
-  <br>
-
-
-  <div class="row">
-    <div class="col-md-3">
-      <div class="btn-group-vertical">
-        <%= link_to "All", visible_all_board_path(@board), method: :post, class: @class_all %>
-        <%= link_to "Active", visible_active_board_path(@board), method: :post, class: @class_active %>
-        <%= link_to "Complete", visible_complete_board_path(@board), method: :post, class: @class_complete %>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <%= simple_form_for [@board, @new_list] do |f| %>
-        <%= f.input :content, label: false, autofocus: true, placeholder: "What need to be done?" %>
-      <% end %>
-
-      <% @board.lists.each do |list| %>
-        <% if list.id.present? %>
-          <% if @board.visible == "All" || (@board.visible == "Active" && !list.done) || (@board.visible == "Complete" && list.done) %>
-            <%= form_for [@board, list] do |f| %>
-              <div class="input-group" style="padding-bottom:2px;">
-                <span class="input-group-btn">
-                  <% if list.done? %>
-                    <%= link_to "undo", done_toggle_board_list_path(@board, list), method: :post, class: "btn btn-info", type: "button" %>
-                  <% else %>
-                    <%= link_to "V", done_toggle_board_list_path(@board, list), method: :post, class: "btn btn-info", type: "button" %>
-                  <% end %>
-                </span>
-                <%= f.text_field :content, class: 'form-control' %>
-                <span class="input-group-btn">
-                  <%= link_to "X", board_list_path(@board, list), method: :delete, class: "btn btn-default", type: "button" %>
-                </span>
-              </div>
-            <% end %>
-          <% end %>
-        <% end %>
-      <% end %>
-    </div>
-  </div>
-<% end %>
+</div>

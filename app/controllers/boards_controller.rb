@@ -1,6 +1,7 @@
 class BoardsController < ApplicationController
 
   before_action :authenticate_user!
+  before_action :find_board, only: [:update, :destroy, :visible_all, :visible_active, :visible_complete]
 
   def index
     @new_board = Board.new
@@ -8,20 +9,6 @@ class BoardsController < ApplicationController
 
     @boards = current_user.boards.includes(:lists)
     @new_list = @board.lists.build
-
-    @class_all = "btn btn-default"
-    @class_active = "btn btn-default"
-    @class_complete = "btn btn-default"
-
-    case @board.visible
-    when "All"
-      @class_all = "btn btn-primary"
-    when "Active"
-      @class_active = "btn btn-primary"
-    when "Complete"
-      @class_complete = "btn btn-primary"
-    end
-
   end
 
   def create
@@ -36,7 +23,6 @@ class BoardsController < ApplicationController
   end
 
   def update
-    @board = Board.find(params[:id])
 
     if @board.update(board_params)
       redirect_to boards_path
@@ -48,14 +34,7 @@ class BoardsController < ApplicationController
   end
 
   def destroy
-    @board = Board.find(params[:id])
     @board.destroy
-    if Board.first.present?
-      session[:board_id] = Board.first.id
-    else
-      session[:board_id] = "0"
-    end
-
     redirect_to boards_path
   end
 
@@ -65,23 +44,17 @@ class BoardsController < ApplicationController
   end
 
   def visible_all
-    @board = Board.find(params[:id])
     @board.update_columns(visible: "All")
-    @board.save
     redirect_to boards_path
   end
 
   def visible_active
-    @board = Board.find(params[:id])
     @board.update_columns(visible: "Active")
-    @board.save
     redirect_to boards_path
   end
 
   def visible_complete
-    @board = Board.find(params[:id])
     @board.update_columns(visible: "Complete")
-    @board.save
     redirect_to boards_path
   end
 
@@ -90,6 +63,10 @@ class BoardsController < ApplicationController
 
   def board_params
     params.require(:board).permit(:title, :visible, list_attributes: [:content, :done])
+  end
+
+  def find_board
+    @board = Board.find(params[:id])
   end
 
 
