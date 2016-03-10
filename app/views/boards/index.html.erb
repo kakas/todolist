@@ -33,7 +33,7 @@
 
     <% @board.lists.each do |list| %>
       <% if list.id.present? %>
-        <% if @board.visible == "All" || (@board.visible == "Active" && !list.done) || (@board.visible == "Complete" && list.done) %>
+        <% if visible?(list) %>
           <%= form_for [@board, list] do |f| %>
             <div class="input-group" style="padding-bottom:2px;">
               <span class="input-group-btn">

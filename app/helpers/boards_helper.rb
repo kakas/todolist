@@ -6,4 +6,9 @@ module BoardsHelper
     end
   end
 
+  def visible?(list)
+    board = current_board
+    board.visible == "All" || (board.visible == "Active" && !list.done) || (board.visible == "Complete" && list.done)
+  end
+
 end
