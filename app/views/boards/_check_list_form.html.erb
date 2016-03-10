@@ -1,0 +1,25 @@
+<% if list.id.present? &&visible?(list) %>
+
+  <%= form_for [@board, list] do |f| %>
+    <div class="input-group" style="padding-bottom:2px;">
+      <span class="input-group-btn">
+        <% if list.done? %>
+          <%= link_to done_toggle_board_list_path(@board, list), method: :post, class: "btn btn-info" do %>
+            <i class="fa fa-check-circle fa-lg"></i>
+          <% end %>
+        <% else %>
+          <%= link_to done_toggle_board_list_path(@board, list), method: :post, class: "btn btn-default" do %>
+            <i class="fa fa-circle-thin fa-lg"></i>
+          <% end %>
+        <% end %>
+      </span>
+      <%= f.text_field :content, class: 'form-control' %>
+      <span class="input-group-btn">
+        <%= link_to  board_list_path(@board, list), method: :delete, class: "btn btn-default" do %>
+          <i class="fa fa-trash"></i>
+        <% end %>
+      </span>
+    </div>
+  <% end %>
+
+<% end %>

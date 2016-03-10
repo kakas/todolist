@@ -1,9 +1,10 @@
 class ListsController < ApplicationController
 
   before_action :authenticate_user!
+  before_action :find_board, only: [:create, :update, :destroy, :done_toggle]
+  before_action :find_list, only: [:update, :destroy, :done_toggle]
 
   def create
-    @board = Board.find(params[:board_id])
     @list = @board.lists.build(list_params)
 
     if @list.save
@@ -14,9 +15,6 @@ class ListsController < ApplicationController
   end
 
   def update
-    @board = Board.find(params[:board_id])
-    @list = @board.lists.find(params[:id])
-
     if @list.update(list_params)
       redirect_to boards_path
     else
@@ -25,16 +23,12 @@ class ListsController < ApplicationController
   end
 
   def destroy
-    @board = Board.find(params[:board_id])
-    @list = @board.lists.find(params[:id])
     @list.destroy
 
     redirect_to boards_path
   end
 
   def done_toggle
-    @board = Board.find(params[:board_id])
-    @list = @board.lists.find(params[:id])
     @list.toggle!(:done)
 
     redirect_to boards_path
@@ -44,6 +38,14 @@ class ListsController < ApplicationController
 
   def list_params
     params.require(:list).permit(:content, :done)
+  end
+
+  def find_board
+    @board = Board.find(params[:board_id])
+  end
+
+  def find_list
+    @list = @board.lists.find(params[:id])
   end
 
 end

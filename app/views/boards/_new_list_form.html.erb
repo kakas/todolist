@@ -1,0 +1,15 @@
+<%= form_for [@board, @new_list] do |f| %>
+  <div class="input-group" style="padding-bottom:10px;">
+    <span class="input-group-btn">
+      <%= link_to "#", class: "btn btn-default" do %>
+        <i class="fa fa-check"></i>
+      <% end %>
+    </span>
+    <%= f.text_field :content, class: "form-control", autofocus: true, placeholder: "What need to be done?" %>
+    <span class="input-group-btn">
+      <%= f.button :submit, class: "btn btn-default", data: { disable_with: "+" } do %>
+        <i class="fa fa-plus"></i>
+      <% end %>
+    </span>
+  </div>
+<% end %>
