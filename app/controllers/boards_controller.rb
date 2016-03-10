@@ -9,20 +9,6 @@ class BoardsController < ApplicationController
 
     @boards = current_user.boards.includes(:lists)
     @new_list = @board.lists.build
-
-    @class_all = "btn btn-default"
-    @class_active = "btn btn-default"
-    @class_complete = "btn btn-default"
-
-    case @board.visible
-    when "All"
-      @class_all = "btn btn-primary"
-    when "Active"
-      @class_active = "btn btn-primary"
-    when "Complete"
-      @class_complete = "btn btn-primary"
-    end
-
   end
 
   def create

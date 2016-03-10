@@ -17,9 +17,9 @@
 <div class="row">
   <div class="col-md-3">
     <div class="btn-group-vertical">
-      <%= link_to "All", visible_all_board_path(@board), method: :post, class: @class_all %>
-      <%= link_to "Active", visible_active_board_path(@board), method: :post, class: @class_active %>
-      <%= link_to "Complete", visible_complete_board_path(@board), method: :post, class: @class_complete %>
+      <%= link_to "All",      visible_all_board_path(@board),      method: :post, class: visible_selected_class("All") %>
+      <%= link_to "Active",   visible_active_board_path(@board),   method: :post, class: visible_selected_class("Active") %>
+      <%= link_to "Complete", visible_complete_board_path(@board), method: :post, class: visible_selected_class("Complete") %>
       <%= link_to board_path(@board), class: "btn btn-default pull-right", method: :delete, data: { confirm: "確定刪除這個Board?" } do %>
         <i class="fa fa-folder-o"></i>
         <i class="fa fa-long-arrow-right"></i>
