@@ -9,29 +9,8 @@
     <% end %>
   </ul>
 
-
   <br>
-  <br>
-  <div class="row">
-    <div class="col-md-4 col-md-offset-3">
-      <%= form_for @board do |f| %>
-        <div class="input-group input-group-lg" style="padding-bottom:10px;">
-          <span class="input-group-btn">
-            <%= link_to "#", class: "btn btn-default" do %>
-              <i class="fa fa-folder-o"></i>
-            <% end %>
-          </span>
-          <%= f.text_field :title, class: 'form-control', placeholder: @board.title %>
-          <span class="input-group-btn">
-            <%= f.button :submit, class: "btn btn-default", data: { disable_with: "Edit" } do %>
-              <i class="fa fa-pencil"></i>
-            <% end %>
-          </span>
-        </div>
-      <% end %>
-    </div>
-  </div>
-  <br>
+  <%= render "edit_board_form" %>
   <br>
 
 
